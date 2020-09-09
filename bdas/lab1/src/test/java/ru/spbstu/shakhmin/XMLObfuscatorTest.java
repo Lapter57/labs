@@ -2,6 +2,10 @@ package ru.spbstu.shakhmin;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,9 +17,12 @@ import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = XMLObfuscatorTestConfig.class)
 class XMLObfuscatorTest {
 
-    private final Obfuscator xmlObfuscator = XMLObfuscator.create();
+    @Autowired
+    private Obfuscator xmlObfuscator;
 
     private String xmlSource;
 

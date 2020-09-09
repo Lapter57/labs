@@ -1,6 +1,7 @@
 package ru.spbstu.shakhmin;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -20,34 +21,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
+@Component
 public class XMLObfuscator implements Obfuscator {
 
-    @NotNull
-    private final Obfuscator stringObfuscator;
-
-    public XMLObfuscator(@NotNull final String key) {
-        this.stringObfuscator = new StringObfuscator(key);
-    }
-
-    private XMLObfuscator(@NotNull final Obfuscator stringObfuscator) {
-        this.stringObfuscator = stringObfuscator;
-    }
-
-    @NotNull
-    public static XMLObfuscator create() {
-        return new XMLObfuscator(StringObfuscator.create());
-    }
+    private static final String KEY = "XlzUUbhmC09smbIbnriH8WJaivuxOqAE";
 
     @NotNull
     @Override
     public String obfuscate(@NotNull final String source) {
-        return processXML(source, stringObfuscator::obfuscate);
+        return processXML(source, s -> obfuscateString(s, KEY));
     }
 
     @NotNull
     @Override
     public String unobfuscate(@NotNull final String obfuscatedSource) {
-        return processXML(obfuscatedSource, stringObfuscator::unobfuscate);
+        return processXML(obfuscatedSource, s -> unobfuscateString(s, KEY));
     }
 
     @NotNull

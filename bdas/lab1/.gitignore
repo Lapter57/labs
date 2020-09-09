@@ -15,5 +15,8 @@
 # ...even if they are in subdirectories
 !*/
 
+!src/main/resources/**
+!src/test/resources/**
+
 # Ignore .idea files
 .idea/*

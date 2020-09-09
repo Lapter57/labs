@@ -18,6 +18,7 @@ class XMLObfuscatorTest {
     private final Obfuscator xmlObfuscator = XMLObfuscator.create();
 
     private String xmlSource;
+
     private String obfuscatedXml;
 
     @BeforeEach

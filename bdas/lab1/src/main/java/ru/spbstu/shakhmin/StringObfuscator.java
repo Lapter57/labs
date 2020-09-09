@@ -6,12 +6,14 @@ public class StringObfuscator implements Obfuscator {
 
     private static final String DEFAULT_KEY = "XlzUUbhmC09smbIbnriH8WJaivuxOqAE";
 
+    @NotNull
     private final String key;
 
     public StringObfuscator(@NotNull final String key) {
         this.key = key;
     }
 
+    @NotNull
     public static StringObfuscator create() {
         return new StringObfuscator(DEFAULT_KEY);
     }

@@ -22,16 +22,18 @@ import java.util.function.UnaryOperator;
 
 public class XMLObfuscator implements Obfuscator {
 
-    private final StringObfuscator stringObfuscator;
+    @NotNull
+    private final Obfuscator stringObfuscator;
 
     public XMLObfuscator(@NotNull final String key) {
         this.stringObfuscator = new StringObfuscator(key);
     }
 
-    private XMLObfuscator(@NotNull final StringObfuscator stringObfuscator) {
+    private XMLObfuscator(@NotNull final Obfuscator stringObfuscator) {
         this.stringObfuscator = stringObfuscator;
     }
 
+    @NotNull
     public static XMLObfuscator create() {
         return new XMLObfuscator(StringObfuscator.create());
     }

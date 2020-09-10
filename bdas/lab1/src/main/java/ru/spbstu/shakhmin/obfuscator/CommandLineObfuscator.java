@@ -118,9 +118,9 @@ public class CommandLineObfuscator {
 
         @NotNull
         static Mode from(@NotNull final String value) {
-            if ("obf".equals(value)){
+            if (OBFUSCATION.mode.equals(value)){
                 return OBFUSCATION;
-            } else if ("unobf".equals(value)) {
+            } else if (UNOBFUSCATION.mode.equals(value)) {
                 return UNOBFUSCATION;
             }
             throw new IllegalArgumentException("Unexpected value: " + value);

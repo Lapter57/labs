@@ -39,15 +39,24 @@ public abstract class AbstractCommandLineObfuscator<O extends Obfuscator> implem
         this.formatter = new HelpFormatter();
         this.optionToValue = new HashMap<>();
         this.options = new Options();
-        addOptions(options);
-        options.addOption(Option.builder("m")
-                .argName(MODE_OPTION)
-                .longOpt(MODE_OPTION)
-                .required()
+        addOptions();
+        addOption("m", MODE_OPTION,
+                String.format("Mode (%s, %s)", Mode.OBFUSCATION.mode, Mode.UNOBFUSCATION.mode), true);
+    }
+
+    protected void addOption(@NotNull final String opt,
+                             @NotNull final String longOpt,
+                             @NotNull final String desc,
+                             final boolean required) {
+        options.addOption(Option.builder(opt)
+                .argName(longOpt)
+                .longOpt(longOpt)
+                .required(required)
                 .hasArg()
-                .desc(String.format("Mode (%s, %s)", Mode.OBFUSCATION.mode, Mode.UNOBFUSCATION.mode))
+                .desc(desc)
                 .build());
     }
+
 
     private void parse(@NotNull final String... args) throws ParseException {
         final var cmd = parser.parse(options, args);
@@ -79,7 +88,7 @@ public abstract class AbstractCommandLineObfuscator<O extends Obfuscator> implem
     protected abstract void postProcess(@NotNull final String processedSource,
                                         @NotNull final Map<String, String> optionToValue) throws Exception;
 
-    protected abstract void addOptions(@NotNull final Options options);
+    protected abstract void addOptions();
 
     @NotNull
     protected abstract String getSource(@NotNull final Map<String, String> optionToValue) throws Exception;

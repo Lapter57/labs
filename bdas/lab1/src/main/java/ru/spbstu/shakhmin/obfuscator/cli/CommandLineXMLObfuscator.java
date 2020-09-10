@@ -1,7 +1,5 @@
 package ru.spbstu.shakhmin.obfuscator.cli;
 
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
@@ -35,21 +33,9 @@ public class CommandLineXMLObfuscator extends AbstractCommandLineObfuscator<XMLO
     }
 
     @Override
-    protected void addOptions(@NotNull final Options options) {
-        options.addOption(Option.builder("i")
-                .argName(INPUT_OPTION)
-                .longOpt(INPUT_OPTION)
-                .required()
-                .hasArg()
-                .desc("Input XML file")
-                .build());
-        options.addOption(Option.builder("o")
-                .argName(OUTPUT_OPTION)
-                .longOpt(OUTPUT_OPTION)
-                .required()
-                .hasArg()
-                .desc("Output XML file")
-                .build());
+    protected void addOptions() {
+        addOption("i", INPUT_OPTION, "Input XML file", true);
+        addOption("o", OUTPUT_OPTION, "Output XML file", true);
     }
 
     @NotNull

@@ -60,7 +60,9 @@ public class XMLObfuscator implements Obfuscator {
             throws ParserConfigurationException, IOException, SAXException {
         final var docFactory = DocumentBuilderFactory.newInstance();
         final var docBuilder = docFactory.newDocumentBuilder();
-        return docBuilder.parse(new InputSource(new StringReader(source)));
+        final var doc = docBuilder.parse(new InputSource(new StringReader(source)));
+        doc.normalizeDocument();
+        return doc;
     }
 
     @NotNull

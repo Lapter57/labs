@@ -5,14 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.spbstu.shakhmin.obfuscator.CommandLineObfuscator;
+import ru.spbstu.shakhmin.obfuscator.CommandLineXMLObfuscator;
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class Main implements CommandLineRunner {
 
     @NotNull
-    private final CommandLineObfuscator cliObfuscator;
+    private final CommandLineXMLObfuscator cliXMLObfuscator;
 
     public static void main(final String[] args) {
         final var app = new SpringApplication(Main.class);
@@ -21,6 +21,6 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(final String... args) {
-        cliObfuscator.process(args);
+        cliXMLObfuscator.process(args);
     }
 }

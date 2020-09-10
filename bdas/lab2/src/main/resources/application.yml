@@ -1,0 +1,12 @@
+app:
+  security:
+    cert:
+      path: public.cer
+      type: X.509
+      provider: BC
+    keyStore:
+      path: private.p12
+      type: PKCS12
+      password: password
+    sign:
+      alg: SHA256withRSA

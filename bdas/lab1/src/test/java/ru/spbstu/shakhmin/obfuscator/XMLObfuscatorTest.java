@@ -1,4 +1,4 @@
-package ru.spbstu.shakhmin;
+package ru.spbstu.shakhmin.obfuscator;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@SpringBootTest(classes = XMLObfuscatorTestConfiguration.class)
 class XMLObfuscatorTest {
 
     @Autowired

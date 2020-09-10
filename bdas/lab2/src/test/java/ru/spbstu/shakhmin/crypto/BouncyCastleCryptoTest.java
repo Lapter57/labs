@@ -1,8 +1,6 @@
 package ru.spbstu.shakhmin.crypto;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,7 +10,6 @@ import ru.spbstu.shakhmin.config.AppProperties;
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -28,12 +25,6 @@ class BouncyCastleCryptoTest {
 
     @Autowired
     private BouncyCastleCrypto bouncyCastleCrypto;
-
-    @BeforeAll
-    public static void init() {
-        Security.setProperty("crypto.policy", "unlimited");
-        Security.addProvider(new BouncyCastleProvider());
-    }
 
     @Test
     public void checkConfiguration() throws NoSuchAlgorithmException {

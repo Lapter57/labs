@@ -1,4 +1,4 @@
-package ru.spbstu.shakhmin;
+package ru.spbstu.shakhmin.obfuscator;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;

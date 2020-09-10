@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xml.sax.InputSource;
+import ru.spbstu.shakhmin.obfuscator.Obfuscator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -16,7 +17,6 @@ import java.io.StringReader;
 import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
@@ -33,8 +33,8 @@ class XMLObfuscatorTest {
     @BeforeEach
     public void init() throws IOException {
         final var classLoader = getClass().getClassLoader();
-        final var file = new File(classLoader.getResource("test.xml").getFile());
-        xmlSource = Files.readString(file.toPath());
+        final var file = new File(classLoader.getResource("test.xml").getFile()).toPath();
+        xmlSource = Files.readString(file);
         obfuscatedXml = xmlObfuscator.obfuscate(xmlSource);
     }
 

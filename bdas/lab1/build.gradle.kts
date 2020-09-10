@@ -1,32 +1,18 @@
 plugins {
     java
-    application
+    id("org.springframework.boot") version "2.3.3.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
 }
 
-java {
+group = "ru.spbstu.shakhmin"
+version = "1.0-SNAPSHOT"
+
+configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
 }
 
 repositories {
     jcenter()
-}
-
-dependencies {
-    // Annotations for better code documentation
-    compile("com.intellij:annotations:12.0")
-
-    // Spring
-    compile("org.springframework:spring-context:5.2.8.RELEASE")
-    compile("org.springframework:spring-test:5.2.8.RELEASE")
-
-    // JUnit Jupiter test framework
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.4.0")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.0")
-}
-
-val run by tasks.getting(JavaExec::class) {
-    standardInput = System.`in`
 }
 
 tasks {
@@ -36,14 +22,24 @@ tasks {
     }
 }
 
-application {
-    // And limit Xmx
-    applicationDefaultJvmArgs = listOf("-Xmx256m")
-}
+dependencies {
+    // Annotations for better code documentation
+    implementation("com.intellij:annotations:12.0")
 
-// Fail on warnings
-tasks.withType<JavaCompile> {
-    val compilerArgs = options.compilerArgs
-    compilerArgs.add("-Werror")
-    compilerArgs.add("-Xlint:all")
+    // Apache commons-cli
+    implementation("commons-cli:commons-cli:1.4")
+
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter")
+
+    // JUnit Jupiter test framework
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+
+    val lombok = "org.projectlombok:lombok:1.18.12"
+    compileOnly(lombok)
+    annotationProcessor(lombok)
+    testCompileOnly(lombok)
+    testAnnotationProcessor(lombok)
 }

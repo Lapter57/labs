@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public abstract class AbstractCommandLineObfuscator<O extends Obfuscator>
-        implements CommandLineObfuscator {
+public abstract class AbstractCommandLineObfuscator<O extends Obfuscator> implements CommandLineObfuscator {
 
     private static final String MODE_OPTION = "mode";
 

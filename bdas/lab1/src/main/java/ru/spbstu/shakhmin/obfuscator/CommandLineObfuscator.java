@@ -88,7 +88,7 @@ public class CommandLineObfuscator {
         try {
             parse(args);
             final var inputXML = Files.readString(new File(optionToValue.get(INPUT_OPTION)).toPath());
-            final var processedXML = Mode.OBFUSCATE == Mode.from(optionToValue.get(MODE_OPTION))
+            final var processedXML = Mode.OBFUSCATION == Mode.from(optionToValue.get(MODE_OPTION))
                     ? xmlObfuscator.obfuscate(inputXML)
                     : xmlObfuscator.unobfuscate(inputXML);
             final var doc = DocumentBuilderFactory.newInstance()
@@ -97,7 +97,8 @@ public class CommandLineObfuscator {
             TransformerFactory.newInstance()
                     .newTransformer()
                     .transform(new DOMSource(doc), new StreamResult(new File(optionToValue.get(OUTPUT_OPTION))));
-            log.info("File was processed");
+            final var modeName = Mode.from(optionToValue.get(MODE_OPTION)).name();
+            log.info(String.format("%s was completed", modeName.charAt(0) + modeName.substring(1).toLowerCase()));
         } catch (Exception e) {
             log.error(String.format("Something went wrong. Reason: %s", e.getMessage()));
             formatter.printHelp("obfuscation", options);
@@ -105,8 +106,8 @@ public class CommandLineObfuscator {
     }
 
     enum Mode {
-        OBFUSCATE("obf"),
-        UNOBFUSCATE("unobf");
+        OBFUSCATION("obf"),
+        UNOBFUSCATION("unobf");
 
         @NotNull
         private final String mode;
@@ -118,9 +119,9 @@ public class CommandLineObfuscator {
         @NotNull
         static Mode from(@NotNull final String value) {
             if ("obf".equals(value)){
-                return OBFUSCATE;
+                return OBFUSCATION;
             } else if ("unobf".equals(value)) {
-                return UNOBFUSCATE;
+                return UNOBFUSCATION;
             }
             throw new IllegalArgumentException("Unexpected value: " + value);
         }

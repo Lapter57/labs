@@ -59,7 +59,7 @@ public class CommandLineObfuscator {
                 .longOpt("mode")
                 .required()
                 .hasArg()
-                .desc("Mode (obf, unobf)")
+                .desc(String.format("Mode (%s, %s)", Mode.OBFUSCATION.mode, Mode.UNOBFUSCATION.mode))
                 .build());
         options.addOption(Option.builder("i")
                 .argName("Input")

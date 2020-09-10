@@ -1,4 +1,4 @@
-package ru.spbstu.shakhmin.obfuscator;
+package ru.spbstu.shakhmin.obfuscator.cli;
 
 @FunctionalInterface
 public interface CommandLineObfuscator {

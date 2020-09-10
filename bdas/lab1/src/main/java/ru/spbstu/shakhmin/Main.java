@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.spbstu.shakhmin.obfuscator.CommandLineXMLObfuscator;
+import ru.spbstu.shakhmin.obfuscator.cli.CommandLineXMLObfuscator;
 
 @SpringBootApplication
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package ru.spbstu.shakhmin.obfuscator;
+package ru.spbstu.shakhmin.obfuscator.cli;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.HelpFormatter;
@@ -7,6 +7,7 @@ import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
+import ru.spbstu.shakhmin.obfuscator.XMLObfuscator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;

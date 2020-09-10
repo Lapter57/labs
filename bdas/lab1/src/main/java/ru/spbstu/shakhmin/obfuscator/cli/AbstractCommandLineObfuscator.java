@@ -1,9 +1,10 @@
-package ru.spbstu.shakhmin.obfuscator;
+package ru.spbstu.shakhmin.obfuscator.cli;
 
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
+import ru.spbstu.shakhmin.obfuscator.Obfuscator;
 
 import java.util.HashMap;
 import java.util.Map;

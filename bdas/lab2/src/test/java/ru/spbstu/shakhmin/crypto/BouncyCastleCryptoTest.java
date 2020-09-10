@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.spbstu.shakhmin.config.AppProperties;
 
 import javax.crypto.Cipher;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
@@ -41,17 +42,17 @@ class BouncyCastleCryptoTest {
 
     @Test
     public void encryptData() throws Exception {
-        assertNotEquals(SECRETE_MSG, new String(getEncryptedData()));
+        assertNotEquals(SECRETE_MSG, new String(getEncryptedData(), StandardCharsets.UTF_8));
     }
 
     @Test
     public void decryptData() throws Exception {
-        assertEquals(SECRETE_MSG, new String(getDecryptedData()));
+        assertEquals(SECRETE_MSG, new String(getDecryptedData(), StandardCharsets.UTF_8));
     }
 
     @Test
     public void signData() throws Exception {
-        assertNotEquals(getDecryptedData(), getSignedData());
+        assertNotEquals(SECRETE_MSG.getBytes(), getSignedData());
     }
 
     @Test
@@ -71,6 +72,6 @@ class BouncyCastleCryptoTest {
 
     @NotNull
     private byte[] getSignedData() throws Exception {
-        return bouncyCastleCrypto.signData(getDecryptedData(), KEY_ALIAS, KEY_PASSWORD);
+        return bouncyCastleCrypto.signData(SECRETE_MSG.getBytes(), KEY_ALIAS, KEY_PASSWORD);
     }
 }

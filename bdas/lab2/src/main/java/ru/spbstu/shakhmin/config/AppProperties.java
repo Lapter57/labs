@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Component
 @Getter
+@Component
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
 

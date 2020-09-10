@@ -86,7 +86,7 @@ public class BouncyCastleCrypto {
         cmsGenerator.addSignerInfoGenerator(
                 new JcaSignerInfoGeneratorBuilder(
                         new JcaDigestCalculatorProviderBuilder()
-                                .setProvider("BC")
+                                .setProvider(appProperties.getSecurity().getCert().getProvider())
                                 .build())
                         .build(contentSigner, signingCertificate));
         cmsGenerator.addCertificates(new JcaCertStore(certList));

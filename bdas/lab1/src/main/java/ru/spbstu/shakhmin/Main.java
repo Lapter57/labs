@@ -12,7 +12,7 @@ import ru.spbstu.shakhmin.obfuscator.CommandLineXMLObfuscator;
 public class Main implements CommandLineRunner {
 
     @NotNull
-    private final CommandLineXMLObfuscator cliXMLObfuscator;
+    private final CommandLineXMLObfuscator clXMLObfuscator;
 
     public static void main(final String[] args) {
         final var app = new SpringApplication(Main.class);
@@ -21,6 +21,6 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(final String... args) {
-        cliXMLObfuscator.process(args);
+        clXMLObfuscator.process(args);
     }
 }

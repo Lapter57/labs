@@ -15,7 +15,7 @@ public class GatewayRouter {
     private final GatewayHandler gatewayHandler;
 
     @Bean
-    public RouterFunction<ServerResponse> serverStatus() {
+    public RouterFunction<ServerResponse> serverStatusRoute() {
         return RouterFunctions
                 .route()
                 .path("/server-status", b1 -> b1

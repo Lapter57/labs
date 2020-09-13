@@ -14,7 +14,7 @@ public final class StatusRouter {
     private static final String STATUS = "{\"status\":\"ONLINE\"}";
 
     @Bean
-    public RouterFunction<ServerResponse> status() {
+    public RouterFunction<ServerResponse> statusRoute() {
         return RouterFunctions
                 .route()
                 .GET("/status", request ->

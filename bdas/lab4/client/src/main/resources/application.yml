@@ -1,0 +1,5 @@
+zuul:
+  routes:
+    dataObjets:
+      path: /data/**
+      url: http://localhost:8081/api/data

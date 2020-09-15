@@ -23,5 +23,5 @@ $ java -jar build/libs/lab1-1.0-SNAPSHOT.jar -m "obf" -i "path to an input file"
 
 Выполните следующую команду, чтобы деобфусцировать XML файл:
 ```bash
-$ java -jar build/libs/lab1-1.0-SNAPSHOT.jar -m "obf" -i "path to an input file" -o "path to an output file"
+$ java -jar build/libs/lab1-1.0-SNAPSHOT.jar -m "unobf" -i "path to an input file" -o "path to an output file"
 ```

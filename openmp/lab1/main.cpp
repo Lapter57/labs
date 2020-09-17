@@ -5,6 +5,8 @@
 #include <random>
 #include <vector>
 
+#define LEN_STR 100
+
 using namespace std;
 
 string generateRandomString(const unsigned int len) {
@@ -37,7 +39,7 @@ int main(int argc, char** argv) {
 
     const int nThreads = atoi(argv[1]);
     printEncoding(encoding);
-    string str = generateRandomString(100);
+    string str = generateRandomString(LEN_STR);
     cout << "before: " << str << endl;
 
 #pragma omp parallel for schedule(static, 1) num_threads(nThreads)

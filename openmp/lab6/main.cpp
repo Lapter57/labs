@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    const int nThreads = atoi(argv[1]);
+    const int nThreads = stoi(argv[1]);
     printEncoding(encoding);
     string str = generateRandomString(LEN_STR);
     cout << "before: " << str << endl;

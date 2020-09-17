@@ -37,12 +37,12 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    const int nThreads = stoi(argv[1]);
+    omp_set_num_threads(stoi(argv[1]));
     printEncoding(encoding);
     string str = generateRandomString(LEN_STR);
     cout << "before: " << str << endl;
 
-#pragma omp parallel for schedule(static, 1) num_threads(nThreads)
+#pragma omp parallel for schedule(static, 1)
     for (unsigned int i = 0; i < encoding.size(); i++) {
         replace(str.begin(), str.end(), encoding[i].first, encoding[i].second);
     }

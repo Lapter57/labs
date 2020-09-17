@@ -27,10 +27,10 @@ void printEncoding(const vector<pair<char, char>> encoding) {
     }
 }
 
-vector<pair<char, char>> encoding = {make_pair('a', '#'), make_pair('b', '*'),
-                                     make_pair('c', '$'), make_pair('d', '&'),
-                                     make_pair('e', '%'), make_pair('f', '!'),
-                                     make_pair('g', '^'), make_pair('h', '@')};
+const vector<pair<char, char>> encoding = {
+    make_pair('a', '#'), make_pair('b', '*'), make_pair('c', '$'),
+    make_pair('d', '&'), make_pair('e', '%'), make_pair('f', '!'),
+    make_pair('g', '^'), make_pair('h', '@')};
 
 int main(int argc, char** argv) {
     if (argc != 2) {

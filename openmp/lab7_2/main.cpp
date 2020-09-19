@@ -83,7 +83,7 @@ double determinant(vector<vector<double>> matrix, const int size) {
 }
 
 int main(int argc, char** argv) {
-    srand(unsigned(std::time(0)));
+    srand(unsigned(time(0)));
     if (argc < 2) {
         return 1;
     }

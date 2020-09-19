@@ -27,12 +27,14 @@ void printMatrix(const vector<vector<double>> matrix) {
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 /**
  *  Вычисление определителя матрицы методом Гаусса
  */
 double determinant(vector<vector<double>> matrix, const int size) {
+    double det = 1;
     /**
      * Каждая i + 1 итерация этого цикла зависит от результатов i итерации,
      * поэтому данный цикл распараллелить не получится из-за зависимости данных.
@@ -53,7 +55,10 @@ double determinant(vector<vector<double>> matrix, const int size) {
         if (abs(matrix[k][i]) < EPS) {
             return 0;
         }
-        swap(matrix[i], matrix[k]);
+        if (i != k) {
+            det = -det;
+            swap(matrix[i], matrix[k]);
+        }
         /**
          * Преобразование матрицы в верхнюю треугольную. У данного цикла ни
          * одна из итераций не зависит от более ранних, поэтому его можно
@@ -62,7 +67,7 @@ double determinant(vector<vector<double>> matrix, const int size) {
 #pragma omp parallel for
         for (int j = i + 1; j < size; j++) {
             const double ratio = matrix[j][i] / matrix[i][i];
-            for (int k = 0; k < size; k++) {
+            for (int k = i; k < size; k++) {
                 matrix[j][k] -= ratio * matrix[i][k];
             }
         }
@@ -74,7 +79,6 @@ double determinant(vector<vector<double>> matrix, const int size) {
      * на один из элементов главной диагонали матрицы, а по завершению
      * параллельной секции все приватные переменные det были перемножены.
      */
-    double det = 1;
 #pragma omp parallel for reduction(* : det)
     for (int i = 0; i < size; i++) {
         det *= matrix[i][i];
@@ -93,7 +97,6 @@ int main(int argc, char** argv) {
     }
     const auto matrix = generateMatrix(size);
     // printMatrix(matrix);
-    // cout << endl;
     cout << determinant(matrix, size) << endl;
     return 0;
 }

@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
  * на изменения, совершаемые другими потоками.
  */
 #pragma omp parallel for schedule(static, 1)
-    for (unsigned int i = 0; i < encoding.size(); i++) {
+    for (int i = 0; i < encoding.size(); i++) {
         replace(str.begin(), str.end(), encoding[i].first, encoding[i].second);
     }
 

@@ -1,80 +1,59 @@
-#include <mpi.h>
+#include "lab9.h"
 
-#include <algorithm>
-#include <iostream>
-#include <vector>
+/**
+ * Моделирует обмен деньами в пятницу вечером.
+ *
+ * @param bank банк, отправляющий деньги
+ * @param isVerbose если true, то будет выведен подробный отчет об обмене
+ * деньгами
+ * @param isTest если true, то время работы программы будет записано в конец
+ * файлa time.txt
+ */
+void simulateFriday(Bank bank, bool isVerbose, bool isTest) {
+    vector<vector<int>> banksCash(BANK_COUNT);
+    generate(banksCash.begin(), banksCash.end(), generateCash);
 
-using namespace std;
-
-const int MSG_TAG = 0;
-const int MIN_CASH = 100;
-const int MAX_CASH = 100000;
-
-enum Currency { CHINESE_YUAN, US_DOLLAR, BRITISH_POUND, CURRENCY_COUNT };
-enum Bank { FIRST_BANK, SECOND_BANK, THIRD_BANK, BANK_COUNT };
-
-string bankToString(Bank bank) {
-    switch (bank) {
-        case FIRST_BANK:
-            return "First bank";
-        case SECOND_BANK:
-            return "Second bank";
-        case THIRD_BANK:
-            return "Third bank";
-        default:
-            return "unknown bank";
-    }
-}
-
-string currencyToString(Currency currency) {
-    switch (currency) {
-        case CHINESE_YUAN:
-            return "chinese yuan";
-        case US_DOLLAR:
-            return "us dollars";
-        case BRITISH_POUND:
-            return "british pound";
-        default:
-            return "unknown currency";
-    }
-}
-
-int randomNumber(int min, int max) {
-    return min + (rand() % static_cast<int>(max - min + 1));
-}
-
-int randomCash() { return randomNumber(MIN_CASH, MAX_CASH); }
-
-vector<int> generateCash() {
-    vector<int> cash(CURRENCY_COUNT);
-    for (int currency = CHINESE_YUAN; currency != BRITISH_POUND; currency++) {
-        generate(cash.begin(), cash.end(), randomCash);
-    }
-    return cash;
-}
-
-vector<pair<Bank, vector<int>>> generateDebt(Bank bank, vector<int> &cash) {
-    vector<pair<Bank, vector<int>>> debtsInfo;
-    for (int b = FIRST_BANK; b < BANK_COUNT; b++) {
-        if (b != bank) {
-            vector<int> debts(CURRENCY_COUNT);
-            for (int currency = CHINESE_YUAN; currency < CURRENCY_COUNT;
-                 currency++) {
-                debts[currency] = randomNumber(0, cash[currency]);
-                cash[currency] -= debts[currency];
-            }
-            debtsInfo.push_back(make_pair(static_cast<Bank>(b), debts));
+    if (isVerbose) {
+        for (int bank = FIRST_BANK; bank < BANK_COUNT; bank++) {
+            auto cash = banksCash[bank];
+            cout << "Before Friday, cash of "
+                 << bankToString(static_cast<Bank>(bank)) << " is ";
+            printCash(cash);
         }
     }
-    return debtsInfo;
-}
 
-void printCash(const vector<int> cash) {
-    for (int currency = CHINESE_YUAN; currency < CURRENCY_COUNT; currency++) {
-        cout << cash[currency] << " "
-             << currencyToString(static_cast<Currency>(currency)) << "  ";
+    vector<vector<pair<Bank, vector<int>>>> banksDebt(BANK_COUNT);
+    for (int bank = FIRST_BANK; bank < BANK_COUNT; bank++) {
+        banksDebt[bank] =
+            generateDebt(static_cast<Bank>(bank), banksCash[bank]);
     }
-    cout << endl;
+
+    double timestamp = MPI_Wtime();
+    for (int bank = FIRST_BANK; bank < BANK_COUNT; bank++) {
+        auto debt = banksDebt[bank];
+        for (auto debtInfo : debt) {
+            if (isVerbose) {
+                cout << bankToString(static_cast<Bank>(bank)) << " send to "
+                     << bankToString(debtInfo.first) << " ";
+                printCash(debtInfo.second);
+            }
+            transform(banksCash[debtInfo.first].begin(),
+                      banksCash[debtInfo.first].end(), debtInfo.second.begin(),
+                      banksCash[debtInfo.first].begin(), plus<int>());
+        }
+    }
+    double timeSpent = MPI_Wtime() - timestamp;
+    if (isTest) {
+        saveTimeSpent(timeSpent);
+    }
+    if (isVerbose) {
+        for (int bank = FIRST_BANK; bank < BANK_COUNT; bank++) {
+            auto cash = banksCash[bank];
+            cout << "After Friday, cash of "
+                 << bankToString(static_cast<Bank>(bank)) << " is ";
+            printCash(cash);
+        }
+    }
 }
 
 int main(int argc, char **argv) {
@@ -83,43 +62,17 @@ int main(int argc, char **argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    if (size != 3) {
-        cout << "3 processors are required to execute the program" << endl;
+    if (size != 1) {
+        cout << "1 processor is required to execute the program" << endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
 
     srand(unsigned(time(0) + rank));
 
-    auto cash = generateCash();
-    cout << "Before Friday, cash of " << bankToString(static_cast<Bank>(rank))
-         << " is ";
-    printCash(cash);
-    auto debtsInfo = generateDebt(static_cast<Bank>(rank), cash);
-    for (auto debtInfo : debtsInfo) {
-        cout << bankToString(static_cast<Bank>(rank)) << " send to "
-             << bankToString(debtInfo.first) << " ";
-        printCash(debtInfo.second);
-        MPI_Send(&debtInfo.second[0], CURRENCY_COUNT, MPI_INT, debtInfo.first,
-                 MSG_TAG, MPI_COMM_WORLD);
-    }
+    bool isTest = isCmdOptionExist(argc, argv, "--test");
+    bool isVerbose = isCmdOptionExist(argc, argv, "--verbose");
 
-    vector<int> loan(CURRENCY_COUNT);
-    MPI_Status status;
-    for (int b = FIRST_BANK; b < BANK_COUNT; b++) {
-        if (b != rank) {
-            MPI_Recv(&loan[0], CURRENCY_COUNT, MPI_INT, b, MSG_TAG,
-                     MPI_COMM_WORLD, &status);
-            cout << bankToString(static_cast<Bank>(rank)) << " receive from "
-                 << bankToString(static_cast<Bank>(b)) << " ";
-            printCash(loan);
-            transform(cash.begin(), cash.end(), loan.begin(), cash.begin(),
-                      plus<int>());
-        }
-    }
-
-    cout << "After Friday, cash of " << bankToString(static_cast<Bank>(rank))
-         << " is ";
-    printCash(cash);
+    simulateFriday(static_cast<Bank>(rank), isVerbose, isTest);
 
     MPI_Finalize();
     return 0;

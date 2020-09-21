@@ -5,7 +5,7 @@ import numpy as np
 MPIRUN = ("mpirun -n {num_process} {program} --test")
 
 
-def get_stats(num_process, num_iter):
+def print_stats(num_process, num_iter):
     time_arr = None
     with open('time.txt') as f:
         time_arr = np.array([float(x[:-1]) for x in f])
@@ -36,4 +36,4 @@ if __name__ == '__main__':
         cmd += " --pack"
     for i in range(args.n):
         os.system(cmd)
-    get_stats(num_process, args.n)
+    print_stats(num_process, args.n)

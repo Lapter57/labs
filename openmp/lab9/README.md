@@ -46,5 +46,3 @@
 процесс передачи похож: 3 целочисленных значения записываются в буфер и передаются
 другому процессу (при упаковке используется явная буферизация, а без упаковки -- политика
 системной буферизации).
-
-[1] Hensgen D., Finkel R., Manber U. Two algorithms for barrier synchronization //International Journal of Parallel Programming. – 1988. – Т. 17. – №. 1. – С. 1-17.

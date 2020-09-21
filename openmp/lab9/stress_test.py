@@ -16,7 +16,7 @@ def print_stats(num_process, num_iter):
 
     print("mean   = ", np.mean(time_arr))
     print("median = ", np.median(time_arr))
-    print("sdr    = ", np.std(time_arr))
+    print("std    = ", np.std(time_arr))
 
 
 if __name__ == '__main__':

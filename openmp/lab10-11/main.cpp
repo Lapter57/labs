@@ -22,19 +22,6 @@ bool isCmdOptionExist(int argc, char **argv, const string option) {
     return false;
 }
 
-string getCmdOption(int argc, char **argv, const string &option) {
-    string cmd;
-    for (int i = 0; i < argc; ++i) {
-        string arg = argv[i];
-        if (0 == arg.find(option)) {
-            size_t found = arg.find_last_of(option);
-            cmd = arg.substr(found + 1);
-            return cmd;
-        }
-    }
-    return cmd;
-}
-
 int mod(const int a, const int b) {
     const int r = a % b;
     return r < 0 ? r + b : r;

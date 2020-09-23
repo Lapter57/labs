@@ -3,7 +3,12 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+import multiprocessing
 
+MAX_NUM_PROC = multiprocessing.cpu_count()
+R_MIN = 2
+R_MAX = 13
+R_STEP = 2
 MPIRUN = ("mpirun -n {num_process} main -r={r} -x=2 --test")
 
 
@@ -28,14 +33,14 @@ if __name__ == '__main__':
                         help="Number of iterations")
 
     args = parser.parse_args()
-    x = np.array([i for i in range(2, 22, 2)])
-    for p in tqdm(range(4)):
+    x = np.array([i for i in range(R_MIN, R_MAX, R_STEP)])
+    for p in tqdm(range(MAX_NUM_PROC)):
         y = np.array([])
-        for r in tqdm(range(2, 22, 2)):
+        for r in tqdm(range(R_MIN, R_MAX, R_STEP)):
             y = np.append(y, test(p + 1, r, args.n))
         plt.plot(x, y, label="num_process = {}".format(p + 1))
 
     plt.xlabel('r')
-    plt.ylabel('time (ms)')
+    plt.ylabel('time (s)')
     plt.legend()
     plt.savefig('test.png')

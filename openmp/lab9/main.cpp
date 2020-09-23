@@ -44,7 +44,7 @@ void simulateFriday(Bank bank, bool isVerbose, bool isTest) {
     }
     double timeSpent = MPI_Wtime() - timestamp;
     if (isTest) {
-        saveTimeSpent(timeSpent);
+        saveTimeSpent(timeSpent * 1000);
     }
     if (isVerbose) {
         for (int bank = FIRST_BANK; bank < BANK_COUNT; bank++) {

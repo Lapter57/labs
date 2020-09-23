@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         MPI_Barrier(MPI_COMM_WORLD);
     }
     if (rank == 0) {
-        saveTimeSpent(MPI_Wtime() - timestamp);
+        saveTimeSpent((MPI_Wtime() - timestamp) * 1000);
     }
 
     MPI_Finalize();

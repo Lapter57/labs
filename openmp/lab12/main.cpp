@@ -52,11 +52,7 @@ int main(int argc, char **argv) {
     const int x = stoi(argv[2]);
     const int s = 1 << r;
     vector<int> a(s * r + 1);
-    if (rank == 0) {
-        generate(a.begin(), a.end(), randomA);
-        printInfo(s, r, x, a);
-    }
-    MPI_Bcast(&a[0], s * r + 1, MPI_INT, 0, MPI_COMM_WORLD);
+    generate(a.begin(), a.end(), randomA);
 
     // Распределение вычислений x^{i * r} * q_i(x) по процессам с помощью
     // цикличной слоистой схемы
@@ -71,6 +67,7 @@ int main(int argc, char **argv) {
     totalSum += a[0];
 
     if (rank == 0) {
+        printInfo(s, r, x, a);
         cout << "q(x) = " << totalSum << endl;
     }
 

@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 
     srand(unsigned(time(0)));
 
-    // Инициализируем константы
+    // Инициализация констант
     bool isTest = isCmdOptionExist(argc, argv, "--test");
     const int r = stoi(getCmdOption(argc, argv, "-r="));
     const int x = stoi(getCmdOption(argc, argv, "-x="));
@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
     }
 
     // Распределение вычислений x^{i * r} * q_i(x) по процессам с помощью
-    // цикличной слоистой схемы
+    // цикличной слоистой схемы и подсчет промежуточной суммы
     double localSum = 0;
     int i;
     for (i = rank + 1; i <= s; i += size) {
